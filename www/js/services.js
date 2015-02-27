@@ -74,9 +74,11 @@ var wundergroundWeather = ['$q', '$resource', 'WUNDERGROUND_API_KEY', function($
 }];
 */
 
-var forecastioWeather = ['$q', '$resource', '$http', 'FORECASTIO_KEY', function($q, $resource, $http, FORECASTIO_KEY) {
+var forecastioWeather = ['$q', '$resource', '$http', 'FORECASTIO_KEY','Settings', function($q, $resource, $http, FORECASTIO_KEY,Settings) {
   var url = 'https://api.forecast.io/forecast/' + FORECASTIO_KEY + '/';
-
+  var settings = Settings.getSettings();
+  
+  
   var weatherResource = $resource(url, {
     callback: 'JSON_CALLBACK',
   }, {
@@ -87,7 +89,7 @@ var forecastioWeather = ['$q', '$resource', '$http', 'FORECASTIO_KEY', function(
 
   return {
     getAtLocation: function(lat, lng) {
-      return $http.jsonp(url + lat + ',' + lng + '?callback=JSON_CALLBACK');
+      return $http.jsonp(url + lat + ',' + lng + '?callback=JSON_CALLBACK&lang='+settings.defaultLanguage);
     },
     getForecast: function(locationString) {
     },
@@ -100,8 +102,8 @@ var forecastioWeather = ['$q', '$resource', '$http', 'FORECASTIO_KEY', function(
 angular.module('ionic.weather.services', ['ngResource'])
 
 .constant('DEFAULT_SETTINGS', {
-  'tempUnits': 'f'
-})
+  'tempUnits': 'f','defaultLanguage':'ru'
+}) 
 
 .factory('Settings', function($rootScope, DEFAULT_SETTINGS) {
   var _settings = {};

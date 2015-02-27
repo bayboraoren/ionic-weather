@@ -24,6 +24,7 @@ angular.module('ionic.weather', ['ionic', 'ionic.weather.services', 'ionic.weath
 
   $scope.activeBgImageIndex = 0;
 
+  
   $scope.showSettings = function() {
     if(!$scope.settingsModal) {
      // Load the modal from the given template URL
@@ -101,7 +102,7 @@ angular.module('ionic.weather', ['ionic', 'ionic.weather.services', 'ionic.weath
 
   // Watch deeply for settings changes, and save them
   // if necessary
-  $scope.$watch('settings', function(v) {
+  $scope.$watch('settings.tempUnits', function(v) {
     Settings.save();
   }, true);
 
